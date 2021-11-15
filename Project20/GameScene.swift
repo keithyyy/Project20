@@ -108,7 +108,7 @@ class GameScene: SKScene {
             createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 300)
             createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 200)
             createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 100)
-            createFirework(xMovement: movementAmount, x: 512, y: bottomEdge)
+            createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge)
             
             
         case 3:
@@ -117,7 +117,7 @@ class GameScene: SKScene {
             createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 300)
             createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 200)
             createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 100)
-            createFirework(xMovement: -movementAmount, x: 512, y: bottomEdge)
+            createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge)
             
         default:
             break
