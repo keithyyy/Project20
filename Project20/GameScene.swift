@@ -5,6 +5,12 @@
 //  Created by Keith Crooc on 2021-11-14.
 //
 
+
+// CHALLENGE
+// 1. Create a scorelabel that updates the score ✅
+// 2. Make the game end after certain number of launches. Will need to use the invalidate() method of Timer to stop the repeating.
+// 3. use waitForDuration and removeFromParent actions in a sequence to make sure explosion particle emitters are removed from game scene when they are finished.
+
 import SpriteKit
 
 class GameScene: SKScene {
@@ -13,7 +19,10 @@ class GameScene: SKScene {
     
     var gameTimer: Timer?
     var fireworks = [SKNode]()
-    var scoreLabel: SKLabelNode?
+    var scoreLabel: SKLabelNode!
+    var displayTimer: Timer?
+    
+    var addedScore: SKLabelNode!
 
     let leftEdge = -22
     let bottomEdge = -22
@@ -21,10 +30,17 @@ class GameScene: SKScene {
 
     var score = 0 {
         didSet {
-            scoreLabel?.text = "Score: \(score)"
-
+            scoreLabel.text = "Score: \(score)"
         }
     }
+    
+    var addedPoints = 0 {
+        didSet {
+            addedScore.text = "+\(addedPoints)!"
+        }
+    }
+    
+    
    
     
     override func didMove(to view: SKView) {
@@ -34,8 +50,26 @@ class GameScene: SKScene {
         background.zPosition = -1
         addChild(background)
         
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.position = CGPoint(x: 512, y: 670)
+        scoreLabel.zPosition = 1
+        scoreLabel.alpha = 1
+        addChild(scoreLabel)
+        
+        score = 0
+        
+        addedScore = SKLabelNode(fontNamed: "Chalkduster")
+        addedScore.position = CGPoint(x: 512, y: 384)
+        addedScore.fontSize = 120
+        addedScore.zPosition = 1
+        addedScore.alpha = 0
+        addChild(addedScore)
+        
+        
+        addedPoints = 0
+        
         gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(launchFireworks), userInfo: nil, repeats: true)
-      
+        
     }
     
     func createFirework(xMovement: CGFloat, x: Int, y: Int) {
@@ -199,14 +233,36 @@ class GameScene: SKScene {
             break
         case 1:
             score += 200
+            addedPoints = 200
         case 2:
             score += 500
+            addedPoints = 500
         case 3:
             score += 1500
+            addedPoints = 1500
         case 4:
             score += 2500
+            addedPoints = 2500
         default:
             score += 4000
+            addedPoints = 4000
         }
+        
+        displayScore()
     }
+    
+    
+    
+    func displayScore() {
+        addedScore.alpha = 1
+
+
+        displayTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(hideDisplay), userInfo: nil, repeats: false)
+    }
+
+
+    @objc func hideDisplay() {
+        addedScore.alpha = 0
+    }
+    
 }
